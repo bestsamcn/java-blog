@@ -1,7 +1,6 @@
 package me.best.main.controllers;
 
 import me.best.main.dao.FactoryDao;
-import me.best.main.dao.UserDaoIml;
 import me.best.main.models.User;
 import me.best.main.utils.JdbcUtils;
 
@@ -20,9 +19,9 @@ public class UserController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("hello java blog");
         Connection conn = JdbcUtils.getConnection();
-        List<User> userList = FactoryDao.userDaoIml.getAll();
+        List<User> userList = FactoryDao.getUserDao().getAll();
         for(User user: userList ){
-            System.out.println(user.getAccount()+" :userid");
+            System.out.println(user.getId()+" :userid");
         }
         System.out.println(userList+": userid");
         System.out.println(conn+" :conn");

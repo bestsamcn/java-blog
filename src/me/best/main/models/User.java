@@ -11,7 +11,7 @@ public class User {
     private String mobile;
     private Timestamp createTime;
     private String createIp;
-    private Timestamp lastUpateTime;
+    private Timestamp lastUpdateTime;
     private Timestamp lastLoginTime;
     private String userType;
     private Timestamp setAdminTime;
@@ -64,11 +64,11 @@ public class User {
     public String getCreateIp(){
         return this.createIp;
     }
-    public void setLastUpateTime(Timestamp lastUpateTime){
-        this.lastUpateTime = lastUpateTime;
+    public void setLastUpateTime(Timestamp lastUpdateTime){
+        this.lastUpdateTime = lastUpdateTime;
     }
     public Timestamp getLastUpdateTime(){
-        return this.lastUpateTime;
+        return this.lastUpdateTime;
     }
     public void setLastLoginTime(Timestamp lastLoginTime){
         this.lastLoginTime = lastLoginTime;
@@ -94,7 +94,7 @@ public class User {
     public User(){
         super();
     }
-    public User(String id, String account, String password, String avatar, String email, String mobile, Timestamp creatTime, String createIp, Timestamp lastLoginTime, Timestamp lastUpateTime, String userType, Timestamp setAdminTime ){
+    public User(String id, String account, String password, String avatar, String email, String mobile, Timestamp createTime, String createIp, Timestamp lastLoginTime, Timestamp lastUpdateTime, String userType, Timestamp setAdminTime ){
         super();
         this.id = id;
         this.account = account;
@@ -105,7 +105,7 @@ public class User {
         this.createTime = createTime;
         this.createIp = createIp;
         this.lastLoginTime = lastLoginTime;
-        this.lastUpateTime = lastUpateTime;
+        this.lastUpdateTime = lastUpdateTime;
         this.userType = userType;
         this.setAdminTime = setAdminTime;
     }

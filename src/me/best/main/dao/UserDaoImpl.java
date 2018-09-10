@@ -4,7 +4,7 @@ import me.best.main.models.User;
 
 import java.util.List;
 
-public class UserDaoIml extends BaseDao<User> implements UserDao{
+public class UserDaoImpl extends BaseDao<User> implements UserDao{
     @Override
     public User getById(String id) {
         System.out.println(id=" : sdfasdfasdf");
