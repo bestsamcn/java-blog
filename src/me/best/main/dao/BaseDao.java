@@ -56,4 +56,19 @@ public class BaseDao<T> {
         return list;
     }
 
+    public String add(String sql, Object...args){
+        Connection conn = null;
+        String str = "";
+        try {
+            // 拿conn
+            conn = JdbcUtils.getConnection();
+            Integer row = queryRunner.update(conn, sql, new BeanHandler<T>(clazz), args);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            JdbcUtils.close(conn);
+        }
+        return str;
+    }
+
 }

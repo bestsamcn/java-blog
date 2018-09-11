@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 public class Tag {
     private String id;
     private String name;
-    private String clickNum;
+    private Integer clickNum;
     private Timestamp createTime;
 
     public String getId(){
@@ -23,11 +23,11 @@ public class Tag {
         this.name = name;
     }
 
-    public String getClickNum() {
+    public Integer getClickNum() {
         return clickNum;
     }
 
-    public void setClickNum(String clickNum) {
+    public void setClickNum(Integer clickNum) {
         this.clickNum = clickNum;
     }
 
@@ -36,6 +36,17 @@ public class Tag {
     }
 
     public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    public Tag(){
+        super();
+    }
+
+    public Tag(String id, String name, Integer clickNum, Timestamp createTime){
+        this.id = id;
+        this.name = name;
+        this.clickNum = clickNum;
         this.createTime = createTime;
     }
 }

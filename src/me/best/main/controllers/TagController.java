@@ -2,6 +2,7 @@ package me.best.main.controllers;
 
 import me.best.main.dao.FactoryDao;
 import me.best.main.models.Tag;
+import me.best.main.utils.Utils;
 import net.sf.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.sql.Timestamp;
+import java.util.Date;
 
 
 @SuppressWarnings("unused")
@@ -26,6 +29,7 @@ public class TagController extends HttpServlet{
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
+        resp.setHeader("content-type", "application/json");
         String pathInfo = req.getPathInfo();
         String path = pathInfo.substring(1);
         System.out.println(path);
@@ -45,13 +49,39 @@ public class TagController extends HttpServlet{
      */
     private void getById(HttpServletRequest req, HttpServletResponse reps){
         Tag tag = FactoryDao.getTagDao().getById(req.getParameter("id"));
-        System.out.println("hahahha");
-        System.out.println(tag.getId()+" :tagId");
+        long time = tag.getCreateTime().getTime();
         try{
             JSONObject json = JSONObject.fromObject(tag);
-            reps.getWriter().println(json);
+            json.remove("createTime");
+            json.put("createTime", time);
+            JSONObject ret = new JSONObject();
+            ret.put("retCode", 0);
+            ret.put("msg", "success");
+            ret.put("data", json);
+            reps.getWriter().println(ret);
         }catch(Exception e){
             e.printStackTrace();
         }
     }
+
+    private void add(HttpServletRequest req, HttpServletResponse resp){
+        JSONObject ret = new JSONObject();
+        String name = req.getParameter("name");
+        if(name.isEmpty() || name == null || name.length() == 0){
+            ret.put("retCode", -1);
+            ret.put("msg", "FAILD");
+            ret.put("data", null);
+            try{
+                resp.getWriter().println(ret);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            return;
+        }
+        Timestamp createTime = new Timestamp(new Date().getTime());
+        Tag tag = new Tag(Utils.getUUID(), name, 0, createTime);
+
+
+    }
+
 }

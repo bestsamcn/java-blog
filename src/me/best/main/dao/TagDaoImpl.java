@@ -16,4 +16,10 @@ public class TagDaoImpl extends BaseDao<Tag> implements TagDao {
         String sql = "select * from public.user";
         return super.getAll(sql);
     }
+
+    @Override
+    public String add() {
+        String sql = "insert into public.tag(id, name, clickNum, createTime) values (?, ?, ?, ?)";
+        return "";
+    }
 }
