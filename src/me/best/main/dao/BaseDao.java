@@ -10,6 +10,11 @@ import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.util.List;
 
+
+/**
+ * @Author: Sam
+ * @Date: 2018/9/12 21:39
+ */
 public class BaseDao<T> {
     private Class<T> clazz;
     QueryRunner queryRunner = new QueryRunner();
@@ -55,7 +60,7 @@ public class BaseDao<T> {
         return list;
     }
 
-    public int add(String sql, Object...args){
+    public int update(String sql, Object...args){
         Connection conn = null;
         int row = 0;
         try {

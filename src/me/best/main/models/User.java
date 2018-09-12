@@ -2,6 +2,11 @@ package me.best.main.models;
 
 import java.sql.Timestamp;
 
+
+/**
+ * @Author: Sam
+ * @Date: 2018/9/12 21:39
+ */
 public class User {
     private String id;
     private String account;

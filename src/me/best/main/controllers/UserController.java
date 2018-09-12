@@ -13,6 +13,11 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.util.List;
 
+
+/**
+ * @Author: Sam
+ * @Date: 2018/9/12 21:39
+ */
 @WebServlet(urlPatterns = {"/user/*"})
 public class UserController extends HttpServlet {
     @Override

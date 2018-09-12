@@ -4,6 +4,11 @@ import me.best.main.models.User;
 
 import java.util.List;
 
+
+/**
+ * @Author: Sam
+ * @Date: 2018/9/12 21:39
+ */
 public class UserDaoImpl extends BaseDao<User> implements UserDao{
     @Override
     public User getById(String id) {

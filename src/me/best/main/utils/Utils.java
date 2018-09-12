@@ -6,6 +6,10 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * @Author: Sam
+ * @Date: 2018/9/12 21:39
+ */
 public class Utils {
 
     /**

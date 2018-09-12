@@ -1,6 +1,5 @@
 package me.best.main.controllers;
 
-import me.best.main.dao.FactoryDao;
 import me.best.main.models.Tag;
 import me.best.main.services.FactoryService;
 import me.best.main.utils.Utils;
@@ -15,10 +14,11 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.HashMap;
 
-
-@SuppressWarnings("unused")
+/**
+ * @Author: Sam
+ * @Date: 2018/9/12 21:39
+ */
 @WebServlet(urlPatterns = {"/tag/*"})
 public class TagController extends HttpServlet{
 
@@ -65,6 +65,7 @@ public class TagController extends HttpServlet{
         }
     }
 
+    //新增
     private void add(HttpServletRequest req, HttpServletResponse resp){
         String name = req.getParameter("name");
         JSONObject ret;
@@ -82,4 +83,39 @@ public class TagController extends HttpServlet{
         }
     }
 
+    //修改
+    private void edit(HttpServletRequest req, HttpServletResponse resp){
+        String id = req.getParameter("id");
+        String name = req.getParameter("name");
+        int clickNum = Integer.parseInt(req.getParameter("clickNum"));
+
+        Tag tag = new Tag(id, name, clickNum, null);
+        String _id =  FactoryService.getTagService().edit(tag);
+
+        JSONObject ret = Utils.setResponse(-1, "编辑失败", "null");
+        if(!id.isEmpty() && _id.length() == 32){
+            ret = Utils.setResponse(0, "编辑成功", _id);
+        }
+        try{
+            resp.getWriter().println(ret);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    //删除
+    public void delete(HttpServletRequest req, HttpServletResponse resp) throws Exception{
+        String id = req.getParameter("id");
+        JSONObject ret = null;
+        if(id.isEmpty() || id.length() == 0 || id.length() != 32){
+            ret = Utils.setResponse(-1, "id不能为空", "null");
+        }
+        String _id = FactoryService.getTagService().delete(id);
+        if(_id.isEmpty() || _id.length() == 0 || _id.length() != 32){
+            ret = Utils.setResponse(-1, "删除失败", "null");
+        }else{
+            ret = Utils.setResponse(0, "删除成功", id);
+        }
+        resp.getWriter().println(ret);
+    }
 }

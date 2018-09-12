@@ -7,7 +7,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 
-//jdbc工具类
+/**
+ * @Author: Sam
+ * @Date: 2018/9/12 21:39
+ */
 public class JdbcUtils {
     private static DataSource dataSource = null;
     static {
