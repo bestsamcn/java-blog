@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : postgres
+ Source Server         : blog
  Source Server Type    : PostgreSQL
  Source Server Version : 90514
  Source Host           : localhost:5432
@@ -12,7 +12,7 @@
  Target Server Version : 90514
  File Encoding         : 65001
 
- Date: 12/09/2018 01:21:18
+ Date: 12/09/2018 19:29:35
 */
 
 
