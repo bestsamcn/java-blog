@@ -45,7 +45,6 @@ public class BaseDao<T> {
         Connection conn = null;
         List<T> list = null;
         try {
-            // 拿conn
             conn = JdbcUtils.getConnection();
             list = queryRunner.query(conn, sql, new BeanListHandler<T>(clazz));
         } catch (Exception e) {
@@ -56,19 +55,18 @@ public class BaseDao<T> {
         return list;
     }
 
-    public String add(String sql, Object...args){
+    public int add(String sql, Object...args){
         Connection conn = null;
-        String str = "";
+        int row = 0;
         try {
-            // 拿conn
             conn = JdbcUtils.getConnection();
-            Integer row = queryRunner.update(conn, sql, new BeanHandler<T>(clazz), args);
+            row = queryRunner.update(conn, sql, args);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             JdbcUtils.close(conn);
         }
-        return str;
+        return row;
     }
 
 }

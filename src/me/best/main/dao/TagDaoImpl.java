@@ -2,6 +2,7 @@ package me.best.main.dao;
 
 import me.best.main.models.Tag;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public class TagDaoImpl extends BaseDao<Tag> implements TagDao {
@@ -18,8 +19,11 @@ public class TagDaoImpl extends BaseDao<Tag> implements TagDao {
     }
 
     @Override
-    public String add() {
-        String sql = "insert into public.tag(id, name, clickNum, createTime) values (?, ?, ?, ?)";
-        return "";
+    public String add(Tag tag) {
+        String sql = "insert into public.tag (id, name, clickNum, createTime) values (?, ?, ?, ?)";
+        System.out.println(sql);
+        int row =  super.add(sql, tag.getId(), tag.getName(), tag.getClickNum(), tag.getCreateTime());
+        System.out.println(row+"sfasdfasdfasdlfajsdlfkjalksdjfalksdjf");
+        return tag.getId();
     }
 }
