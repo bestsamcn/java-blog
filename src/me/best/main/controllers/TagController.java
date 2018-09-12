@@ -48,7 +48,7 @@ public class TagController extends HttpServlet{
      * @param req
      * @param reps
      */
-    private void getById(HttpServletRequest req, HttpServletResponse reps){
+    private void getById(HttpServletRequest req, HttpServletResponse reps) throws ServletException, IOException{
         Tag tag = FactoryService.getTagService().getById(req.getParameter("id"));
         long time = tag.getCreateTime().getTime();
         try{
@@ -66,7 +66,7 @@ public class TagController extends HttpServlet{
     }
 
     //新增
-    private void add(HttpServletRequest req, HttpServletResponse resp){
+    private void add(HttpServletRequest req, HttpServletResponse resp)  throws Exception{
         String name = req.getParameter("name");
         JSONObject ret;
         if(name.isEmpty() || name == null || name.length() == 0){
@@ -76,11 +76,7 @@ public class TagController extends HttpServlet{
         Tag tag = new Tag(Utils.getUUID(), name, 0, createTime);
         String id = FactoryService.getTagService().add(tag);
         ret = Utils.setResponse(0, "添加成功", id);
-        try{
-            resp.getWriter().println(ret);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+        resp.getWriter().println(ret);
     }
 
     //修改
