@@ -29,7 +29,7 @@ public interface TagDao {
      * @param tag
      * @return
      */
-    public String add(Tag tag);
+    public int add(Tag tag);
 
 
     /**
@@ -37,12 +37,14 @@ public interface TagDao {
      * @param tag
      * @return
      */
-    public String edit(Tag tag);
+    public int edit(Tag tag);
 
     /**
      * 删除
      * @param id
      * @return
      */
-    public String delete(String id);
+    public int delete(String id);
+
+    public long getCountByName(String name);
 }

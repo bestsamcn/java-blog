@@ -4,6 +4,7 @@ import me.best.main.utils.JdbcUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -44,6 +45,21 @@ public class BaseDao<T> {
             JdbcUtils.close(conn);
         }
         return entity;
+    }
+
+    //唯一性约束
+    public Object getValue(String sql, Object...args){
+        Connection conn = null;
+        Object obj =null;
+        try{
+            conn = JdbcUtils.getConnection();
+            obj = queryRunner.query(conn, sql, new ScalarHandler(), args);
+        }catch(Exception e){
+            e.printStackTrace();
+        } finally {
+            JdbcUtils.close(conn);
+        }
+        return obj;
     }
 
     public List<T> getAll(String sql){

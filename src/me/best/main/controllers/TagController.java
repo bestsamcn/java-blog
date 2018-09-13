@@ -4,6 +4,7 @@ import me.best.main.models.Tag;
 import me.best.main.services.FactoryService;
 import me.best.main.utils.Utils;
 import net.sf.json.JSONObject;
+import org.postgresql.util.PSQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -66,51 +68,50 @@ public class TagController extends HttpServlet{
     }
 
     //新增
-    private void add(HttpServletRequest req, HttpServletResponse resp)  throws Exception{
+    private void add(HttpServletRequest req, HttpServletResponse resp) throws Exception{
         String name = req.getParameter("name");
-        JSONObject ret;
-        if(name.isEmpty() || name == null || name.length() == 0){
-                ret = Utils.setResponse(-1, "标签名不能为空","null");
-        }
-        Timestamp createTime = new Timestamp(new Date().getTime());
-        Tag tag = new Tag(Utils.getUUID(), name, 0, createTime);
-        String id = FactoryService.getTagService().add(tag);
-        ret = Utils.setResponse(0, "添加成功", id);
+        JSONObject ret = FactoryService.getTagService().add(name);
         resp.getWriter().println(ret);
+
     }
 
     //修改
-    private void edit(HttpServletRequest req, HttpServletResponse resp){
+    private void edit(HttpServletRequest req, HttpServletResponse resp) throws Exception{
         String id = req.getParameter("id");
         String name = req.getParameter("name");
         int clickNum = Integer.parseInt(req.getParameter("clickNum"));
 
         Tag tag = new Tag(id, name, clickNum, null);
-        String _id =  FactoryService.getTagService().edit(tag);
 
-        JSONObject ret = Utils.setResponse(-1, "编辑失败", "null");
-        if(!id.isEmpty() && _id.length() == 32){
-            ret = Utils.setResponse(0, "编辑成功", _id);
-        }
+
+        JSONObject ret = Utils.setResponse(-1, "异常", "null");
+
         try{
-            resp.getWriter().println(ret);
+            int row =  FactoryService.getTagService().edit(tag);
+            if(row == 1){
+                ret = Utils.setResponse(0, "编辑成功", tag.getId());
+            }
         }catch(Exception e){
             e.printStackTrace();
         }
+        resp.getWriter().println(ret);
     }
 
     //删除
     public void delete(HttpServletRequest req, HttpServletResponse resp) throws Exception{
         String id = req.getParameter("id");
-        JSONObject ret = null;
-        if(id.isEmpty() || id.length() == 0 || id.length() != 32){
-            ret = Utils.setResponse(-1, "id不能为空", "null");
+        JSONObject ret = Utils.setResponse(-1, "异常", "null");
+        if(id.isEmpty() || id.length() != 32){
+            ret = Utils.setResponse(-1, "无此数据", "null");
+            resp.getWriter().println(ret);
         }
-        String _id = FactoryService.getTagService().delete(id);
-        if(_id.isEmpty() || _id.length() == 0 || _id.length() != 32){
-            ret = Utils.setResponse(-1, "删除失败", "null");
-        }else{
-            ret = Utils.setResponse(0, "删除成功", id);
+        try{
+            int row =  FactoryService.getTagService().delete(id);
+            if(row == 1){
+                ret = Utils.setResponse(0, "编辑成功", id);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
         }
         resp.getWriter().println(ret);
     }

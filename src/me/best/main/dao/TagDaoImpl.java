@@ -2,7 +2,6 @@ package me.best.main.dao;
 
 import me.best.main.models.Tag;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -23,34 +22,26 @@ public class TagDaoImpl extends BaseDao<Tag> implements TagDao {
     }
 
     @Override
-    public String add(Tag tag) {
+    public int add(Tag tag) {
         String sql = "insert into public.tag (id, name, \"clickNum\", \"createTime\") values (?, ?, ?, ?)";
-        System.out.println(sql);
-        int row =  super.update(sql, tag.getId(), tag.getName(), tag.getClickNum(), tag.getCreateTime());
-        if(row == 1){
-            return tag.getId();
-        }
-        return null;
+        return super.update(sql, tag.getId(), tag.getName(), tag.getClickNum(), tag.getCreateTime());
     }
 
     @Override
-    public String edit(Tag tag) {
+    public int edit(Tag tag) {
         String sql = "update public.tag set name=?, \"clickNum\"=? where id=?";
-        int row = super.update(sql, tag.getName(), tag.getClickNum(), tag.getId());
-        if(row == 1){
-            return tag.getId();
-        }
-        return null;
+        return super.update(sql, tag.getName(), tag.getClickNum(), tag.getId());
     }
 
     @Override
-    public String delete(String id) {
+    public int delete(String id) {
         String sql = "delete from public.tag where id=?";
+        return  super.update(sql, id);
+    }
 
-        int row = super.update(sql, id);
-        if(row == 1){
-            return id;
-        }
-        return null;
+    @Override
+    public long getCountByName(String name) {
+        String sql = "select count(*) from public.tag where name=?";
+        return (long) super.getValue(sql, name);
     }
 }

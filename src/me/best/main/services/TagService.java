@@ -1,6 +1,7 @@
 package me.best.main.services;
 
 import me.best.main.models.Tag;
+import net.sf.json.JSONObject;
 
 import java.util.List;
 
@@ -12,10 +13,10 @@ public interface TagService {
 
     /**
      * 新增
-     * @param tag
+     * @param name
      * @return
      */
-    public String add(Tag tag);
+    public JSONObject add(String name);
 
     /**
      * 获取单个标签
@@ -34,12 +35,12 @@ public interface TagService {
      * 删除
      * @param id
      */
-    public String delete(String id);
+    public int delete(String id);
 
     /**
      * 编辑
      * @param tag
      * @return
      */
-    public String edit(Tag tag);
+    public int edit(Tag tag);
 }
