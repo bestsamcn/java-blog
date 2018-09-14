@@ -49,11 +49,18 @@ public class TagController extends BaseController{
     }
 
     //分页
-    public  void  getList(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public void getList(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         JSONObject ret = null;
         String pageIndex = req.getParameter("pageIndex");
         String pageSize = req.getParameter("pageSize");
         ret = FactoryService.getTagService().getList(pageIndex, pageSize);
+        resp.getWriter().println(ret);
+    }
+
+    //获取全部
+    public void getAll(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        JSONObject ret = null;
+        ret = FactoryService.getTagService().getAll();
         resp.getWriter().println(ret);
     }
 }

@@ -22,7 +22,7 @@ public class TagServiceImpl implements TagService{
         JSONObject ret = null;
 
         //校验
-        if(name.isEmpty() || name == null || name.length() == 0){
+        if(name == null || name.isEmpty()  || name.length() == 0){
             ret = Utils.setResponse(-1, "标签名不能为空","null");
             return ret;
         }
@@ -58,7 +58,7 @@ public class TagServiceImpl implements TagService{
         JSONObject ret = Utils.setResponse(-1, "异常", "null");
 
         //校验
-        if(id.isEmpty() || id == null || id.length() != 32){
+        if(  id == null || id.isEmpty() || id.length() != 32){
             ret = Utils.setResponse(-1, "无此记录","null");
             return ret;
         }
@@ -83,7 +83,6 @@ public class TagServiceImpl implements TagService{
         int _pageIndex = 0;
         int _pageSize = PAGE_SIZE;
 
-        Boolean a = Utils.isNumber(pageIndex);
         //页码校验
         if(pageIndex == null || pageIndex.trim().isEmpty() || !Utils.isNumber(pageIndex)){
             ret = Utils.setResponse(-1, "页码必须为数字", "null");
@@ -102,9 +101,28 @@ public class TagServiceImpl implements TagService{
             _pageIndex = 1;
         }
         if(_pageSize <= 0){
-            _pageSize=10;
+            _pageSize=PAGE_SIZE;
         }
         List<Tag> tagList = FactoryDao.getTagDao().getList(_pageIndex, _pageSize);
+        long total = FactoryDao.getTagDao().getTotal();
+
+        //转换时间戳
+        JSONArray _tagList = JSONArray.fromObject(tagList);
+        JSONArray _retList = new JSONArray();
+        for(int i=0; i<_tagList.size(); i++){
+            JSONObject obj = _tagList.getJSONObject(i);
+            obj.replace("createTime", obj.getJSONObject("createTime").get("time"));
+            _retList.add(obj);
+        }
+        ret = Utils.setResponse(0, "查询成功", _retList);
+        ret.put("total", total);
+        return ret;
+    }
+
+    @Override
+    public JSONObject getAll(){
+        JSONObject ret = Utils.setResponse(-1, "异常", "null");
+        List<Tag> tagList = FactoryDao.getTagDao().getAll();
 
         //转换时间戳
         JSONArray _tagList = JSONArray.fromObject(tagList);

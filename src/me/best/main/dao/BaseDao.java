@@ -32,7 +32,12 @@ public class BaseDao<T> {
         }
     }
 
-    //获取一条数据
+    /**
+     * 查询一条数据
+     * @param sql
+     * @param args
+     * @return
+     */
     public T get(String sql, Object...args){
         T entity = null;
         Connection conn = null;
@@ -47,7 +52,12 @@ public class BaseDao<T> {
         return entity;
     }
 
-    //唯一性约束
+    /**
+     * 唯一性约束
+     * @param sql
+     * @param args
+     * @return
+     */
     public Object getValue(String sql, Object...args){
         Connection conn = null;
         Object obj =null;
@@ -62,6 +72,12 @@ public class BaseDao<T> {
         return obj;
     }
 
+    /**
+     * 分页
+     * @param sql
+     * @param args
+     * @return
+     */
     public List<T> getList(String sql, Object...args){
         Connection conn = null;
         List<T> list = null;
@@ -76,6 +92,31 @@ public class BaseDao<T> {
         return list;
     }
 
+    /**
+     * 获取全部
+     * @param sql
+     * @return
+     */
+    public List<T> getAll(String sql){
+        Connection conn = null;
+        List<T> list = null;
+        try {
+            conn = JdbcUtils.getConnection();
+            list = queryRunner.query(conn, sql, new BeanListHandler<T>(clazz));
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            JdbcUtils.close(conn);
+        }
+        return list;
+    }
+
+    /**
+     * 新增，修改，删除
+     * @param sql
+     * @param args
+     * @return
+     */
     public int update(String sql, Object...args){
         Connection conn = null;
         int row = 0;

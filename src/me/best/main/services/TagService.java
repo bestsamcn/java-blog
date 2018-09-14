@@ -44,4 +44,10 @@ public interface TagService {
      * @return
      */
     public JSONObject edit(String id, String name, String clickNum);
+
+    /**
+     * 获取全部
+     * @return
+     */
+    public JSONObject getAll();
 }

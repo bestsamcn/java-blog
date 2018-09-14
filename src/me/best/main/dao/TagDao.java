@@ -25,6 +25,12 @@ public interface TagDao {
     public List<Tag> getList(int pageIndex, int pageSize);
 
     /**
+     * 获取全部
+     * @return
+     */
+    public List<Tag> getAll();
+
+    /**
      * 添加标签
      * @param tag
      * @return
@@ -48,5 +54,16 @@ public interface TagDao {
      */
     public int delete(String id);
 
+    /**
+     * 唯一性约束
+     * @param name
+     * @return
+     */
     public long getCountByName(String name);
+
+    /**
+     * 获取记录总数
+     * @return
+     */
+    public long getTotal();
 }

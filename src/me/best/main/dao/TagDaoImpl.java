@@ -19,8 +19,20 @@ public class TagDaoImpl extends BaseDao<Tag> implements TagDao {
 
     @Override
     public List<Tag> getList(int pageIndex, int pageSize) {
-        String sql = "select * from public.tag limit ? offset ? order by id desc";
+        String sql = "select * from public.tag order by id desc limit ? offset ?";
         return super.getList(sql, pageSize, (pageIndex-1)* pageSize);
+    }
+
+    @Override
+    public List<Tag> getAll(){
+        String sql = "select * from public.tag order by id desc";
+        return super.getAll(sql);
+    }
+
+    @Override
+    public long getTotal(){
+        String sql = "select count(id) from public.tag";
+        return (long) super.getValue(sql);
     }
 
     @Override
