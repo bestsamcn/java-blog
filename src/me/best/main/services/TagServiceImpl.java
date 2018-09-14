@@ -28,7 +28,6 @@ public class TagServiceImpl implements TagService{
         //唯一性
         long count =  FactoryDao.getTagDao().getCountByName(name);
         if(count != 0){
-            System.out.println(count);
             ret = Utils.setResponse(-1, "标签名已存在","null");
             return ret;
         }
@@ -53,9 +52,27 @@ public class TagServiceImpl implements TagService{
     }
 
     @Override
-    public Tag getById(String id) {
+    public JSONObject getById(String id) {
+        JSONObject ret = Utils.setResponse(-1, "异常", "null");
+
+        //校验
+        if(id.isEmpty() || id == null || id.length() != 32){
+            ret = Utils.setResponse(-1, "无此记录","null");
+            return ret;
+        }
         Tag tag = FactoryDao.getTagDao().getById(id);
-        return tag;
+        if(tag == null){
+            ret = Utils.setResponse(-1, "无此记录","null");
+            return ret;
+        }
+
+        //将实体转换为JSONObject类型
+        JSONObject _tag = JSONObject.fromObject(tag);
+
+        //修改createTime的类型转为long时间戳
+        _tag.replace("createTime", tag.getCreateTime().getTime());
+        ret = Utils.setResponse(-1, "查询成功",_tag);
+        return ret;
     }
 
     @Override
@@ -64,12 +81,54 @@ public class TagServiceImpl implements TagService{
     }
 
     @Override
-    public int delete(String id) {
-        return FactoryDao.getTagDao().delete(id);
+    public JSONObject delete(String id) {
+        JSONObject ret = Utils.setResponse(-1, "异常", "null");
+        if(id.isEmpty() || id.length() != 32){
+            ret = Utils.setResponse(-1, "无此数据", "null");
+            return ret;
+        }
+        try{
+            int row =   FactoryDao.getTagDao().delete(id);
+            if(row == 1){
+                ret = Utils.setResponse(0, "删除成功", id);
+                return ret;
+            }
+            ret = Utils.setResponse(0, "无此数据", id);
+            return ret;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return ret;
     }
 
     @Override
-    public int edit(Tag tag) {
-        return FactoryDao.getTagDao().edit(tag);
+    public JSONObject edit(String id, String name, String clickNum) {
+        JSONObject ret = Utils.setResponse(-1, "编辑失败", "null");
+
+        //校验
+        if( id == null || id.isEmpty() || id.length() == 0){
+            ret = Utils.setResponse(-1, "无此数据","null");
+            return ret;
+        }
+
+        if(name == null || name.isEmpty() || name.length() == 0){
+            ret = Utils.setResponse(-1, "标签名不能为空","null");
+            return ret;
+        }
+        if(clickNum != null && !clickNum.isEmpty() && !clickNum.trim().equals("")){
+            ret = Utils.setResponse(-1, "点击数量必须为数字","null");
+            return ret;
+        }
+
+        int count = 0;
+        if(clickNum != null){
+            count = FactoryDao.getTagDao().edit(id, name, Integer.parseInt(clickNum));
+        }else{
+            count = FactoryDao.getTagDao().edit(id, name, null);
+        }
+        if(count == 1){
+            ret = Utils.setResponse(0, "编辑成功", id);
+        }
+        return ret;
     }
 }

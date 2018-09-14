@@ -33,11 +33,13 @@ public interface TagDao {
 
 
     /**
-     * 修改
-     * @param tag
+     * 编辑
+      * @param id
+     * @param name
+     * @param clickNum
      * @return
      */
-    public int edit(Tag tag);
+    public int edit(String id, String name, Object clickNum);
 
     /**
      * 删除

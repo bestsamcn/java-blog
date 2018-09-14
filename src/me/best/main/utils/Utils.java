@@ -1,10 +1,12 @@
 package me.best.main.utils;
 
+import jdk.nashorn.internal.runtime.regexp.RegExp;
 import net.sf.json.JSONObject;
 
 import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 /**
  * @Author: Sam
@@ -35,5 +37,16 @@ public class Utils {
         json.put("msg", msg);
         json.put("data", data);
         return json;
+    }
+
+    /**
+     * 检验字符串是否是数字
+     * @param num
+     * @return
+     */
+    public static boolean isNumber(String num){
+        num = num.trim();
+        String reg = "/^[0-9]+$/";
+        return Pattern.matches(reg, num);
     }
 }

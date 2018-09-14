@@ -9,6 +9,7 @@ import java.util.List;
  * @Date: 2018/9/12 21:39
  */
 public class TagDaoImpl extends BaseDao<Tag> implements TagDao {
+
     @Override
     public Tag getById(String id) {
         String sql = "select * from public.tag where id=?";
@@ -28,9 +29,16 @@ public class TagDaoImpl extends BaseDao<Tag> implements TagDao {
     }
 
     @Override
-    public int edit(Tag tag) {
-        String sql = "update public.tag set name=?, \"clickNum\"=? where id=?";
-        return super.update(sql, tag.getName(), tag.getClickNum(), tag.getId());
+    public int edit(String id, String name, Object clickNum) {
+        String sql = "update public.tag set";
+        if(name != null && !name.equals("")){
+            sql += " name="+"\'"+name+"\'";
+        }
+        if(clickNum != null){
+            sql += " \"clickNum\"="+clickNum;
+        }
+        sql += " where id="+"\'"+id+"\'";
+        return super.update(sql);
     }
 
     @Override

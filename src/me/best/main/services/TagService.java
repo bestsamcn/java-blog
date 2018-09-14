@@ -23,7 +23,7 @@ public interface TagService {
      * @param id
      * @return
      */
-    public Tag getById(String id);
+    public JSONObject getById(String id);
 
     /**
      * 获取列表
@@ -35,12 +35,13 @@ public interface TagService {
      * 删除
      * @param id
      */
-    public int delete(String id);
-
+    public JSONObject delete(String id);
     /**
      * 编辑
-     * @param tag
+      * @param id
+     * @param name
+     * @param clickNum
      * @return
      */
-    public int edit(Tag tag);
+    public JSONObject edit(String id, String name, String clickNum);
 }
