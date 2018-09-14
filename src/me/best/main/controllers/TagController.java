@@ -47,4 +47,13 @@ public class TagController extends BaseController{
         JSONObject ret = FactoryService.getTagService().delete(id);
         resp.getWriter().println(ret);
     }
+
+    //分页
+    public  void  getList(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        JSONObject ret = null;
+        String pageIndex = req.getParameter("pageIndex");
+        String pageSize = req.getParameter("pageSize");
+        ret = FactoryService.getTagService().getList(pageIndex, pageSize);
+        resp.getWriter().println(ret);
+    }
 }

@@ -29,7 +29,7 @@ public interface TagService {
      * 获取列表
      * @return
      */
-    public List<Tag> getList();
+    public JSONObject getList(String pageIndex, String pageSize);
 
     /**
      * 删除

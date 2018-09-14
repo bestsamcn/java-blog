@@ -17,5 +17,9 @@ public interface UserDao {
      */
     public User getById(String id);
 
-    public List<User> getAll();
+    /**
+     * 获取用户列表
+     * @return
+     */
+    public List<User> getList();
 }

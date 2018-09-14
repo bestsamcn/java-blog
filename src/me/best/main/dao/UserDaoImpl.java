@@ -17,8 +17,8 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao{
         return super.get(sql, id);
     }
     @Override
-    public List<User> getAll(){
+    public List<User> getList(){
         String sql = "select * from user";
-        return super.getAll(sql);
+        return super.getList(sql);
     }
 }

@@ -45,8 +45,9 @@ public class Utils {
      * @return
      */
     public static boolean isNumber(String num){
+        if(num == null) return false;
         num = num.trim();
-        String reg = "/^[0-9]+$/";
-        return Pattern.matches(reg, num);
+        Pattern pattern = Pattern.compile("^[0-9]*$");
+        return pattern.matcher(num).matches();
     }
 }

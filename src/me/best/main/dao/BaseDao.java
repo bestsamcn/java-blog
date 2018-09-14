@@ -62,12 +62,12 @@ public class BaseDao<T> {
         return obj;
     }
 
-    public List<T> getAll(String sql){
+    public List<T> getList(String sql, Object...args){
         Connection conn = null;
         List<T> list = null;
         try {
             conn = JdbcUtils.getConnection();
-            list = queryRunner.query(conn, sql, new BeanListHandler<T>(clazz));
+            list = queryRunner.query(conn, sql, new BeanListHandler<T>(clazz), args);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

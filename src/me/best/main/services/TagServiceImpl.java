@@ -3,6 +3,7 @@ package me.best.main.services;
 import me.best.main.dao.FactoryDao;
 import me.best.main.models.Tag;
 import me.best.main.utils.Utils;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import java.sql.Timestamp;
@@ -14,6 +15,7 @@ import java.util.List;
  * @Date: 2018/9/12 21:39
  */
 public class TagServiceImpl implements TagService{
+    static final int PAGE_SIZE= 10;
 
     @Override
     public JSONObject add(String name) {
@@ -76,8 +78,44 @@ public class TagServiceImpl implements TagService{
     }
 
     @Override
-    public List<Tag> getList() {
-        return null;
+    public JSONObject getList(String pageIndex, String pageSize) {
+        JSONObject ret = Utils.setResponse(-1, "异常", "null");
+        int _pageIndex = 0;
+        int _pageSize = PAGE_SIZE;
+
+        Boolean a = Utils.isNumber(pageIndex);
+        //页码校验
+        if(pageIndex == null || pageIndex.trim().isEmpty() || !Utils.isNumber(pageIndex)){
+            ret = Utils.setResponse(-1, "页码必须为数字", "null");
+            return ret;
+        }
+
+        //体积校验
+        if(pageSize == null || pageSize.trim().isEmpty() || !Utils.isNumber(pageSize)){
+            ret = Utils.setResponse(-1, "页码体积必须为数字", "null");
+            return ret;
+        }
+        _pageIndex = Integer.parseInt(pageIndex.trim());
+        _pageSize = Integer.parseInt(pageSize.trim());
+
+        if(_pageIndex <= 0){
+            _pageIndex = 1;
+        }
+        if(_pageSize <= 0){
+            _pageSize=10;
+        }
+        List<Tag> tagList = FactoryDao.getTagDao().getList(_pageIndex, _pageSize);
+
+        //转换时间戳
+        JSONArray _tagList = JSONArray.fromObject(tagList);
+        JSONArray _retList = new JSONArray();
+        for(int i=0; i<_tagList.size(); i++){
+            JSONObject obj = _tagList.getJSONObject(i);
+            obj.replace("createTime", obj.getJSONObject("createTime").get("time"));
+            _retList.add(obj);
+        }
+        ret = Utils.setResponse(0, "查询成功", _retList);
+        return ret;
     }
 
     @Override

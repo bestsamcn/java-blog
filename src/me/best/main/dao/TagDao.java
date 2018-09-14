@@ -22,7 +22,7 @@ public interface TagDao {
      * 获取标签列表
      * @return
      */
-    public List<Tag> getAll();
+    public List<Tag> getList(int pageIndex, int pageSize);
 
     /**
      * 添加标签
