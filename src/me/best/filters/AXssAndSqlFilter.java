@@ -16,6 +16,6 @@ public class AXssAndSqlFilter extends BaseFilter {
         resp.setCharacterEncoding("UTF-8");
         resp.setHeader("content-type", "application/json");
         HttpRequestFilter httpRequestFilter = new HttpRequestFilter(req);
-        filterChain.doFilter(req, resp);
+        filterChain.doFilter(httpRequestFilter, resp);
     }
 }
