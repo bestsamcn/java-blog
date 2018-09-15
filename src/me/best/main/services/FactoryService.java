@@ -9,4 +9,8 @@ public class FactoryService {
     public static TagService getTagService() {
         return new TagServiceImpl();
     }
+
+    public static UserService getUserService(){
+        return new UserServiceImpl();
+    }
 }

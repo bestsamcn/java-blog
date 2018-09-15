@@ -18,9 +18,7 @@ public class BaseController extends HttpServlet{
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
-        resp.setCharacterEncoding("UTF-8");
-        resp.setHeader("content-type", "application/json");
+
         String pathInfo = req.getPathInfo();
         String path = pathInfo.substring(1);
         try{
