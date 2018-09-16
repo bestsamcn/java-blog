@@ -26,10 +26,11 @@ public interface UserService {
 
     /**
      * 编辑用户
-     * @param user
+     * @param email
+     * @param mobile
      * @return
      */
-    public JSONObject edit(User user);
+    public JSONObject edit(String id, String email, String mobile);
 
     /**
      * 获取用户分页
@@ -45,4 +46,11 @@ public interface UserService {
      * @return
      */
     public JSONObject getUserByAccount(String account);
+
+    /**
+     * 通过id获取用户
+     * @param id
+     * @return
+     */
+    public Object getById(String id, boolean isServer);
 }

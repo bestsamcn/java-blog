@@ -20,12 +20,14 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao{
 
     @Override
     public int delete(String id) {
-        return 0;
+        String sql = "delete from public.user where id=?";
+        return super.update(sql, id);
     }
 
     @Override
     public User getById(String id) {
-        return null;
+        String sql = "select * from public.user where id=?";
+        return super.get(sql, id);
     }
 
     @Override
@@ -41,6 +43,8 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao{
 
     @Override
     public int edit(User user) {
-        return 0;
+        String sql = "update public.user"
+                +" set password=?, avatar=?, email=?, mobile=?, \"lastUpdateTime\"=now(), \"lastLoginTime\"=?, \"userType\"=?, \"setAdminTime\"=?, \"createIp\"=? where id=?";
+        return super.update(sql, user.getPassword(), user.getAvatar(), user.getEmail(), user.getMobile(), user.getLastLoginTime(), user.getUserType(), user.getSetAdminTime(), user.getCreateIp(), user.getId());
     }
 }
