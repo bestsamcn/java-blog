@@ -10,6 +10,9 @@ public class FactoryService {
         return new TagServiceImpl();
     }
 
+    public static CategoryService getCategoryService() {
+        return new CategoryServiceImpl();
+    }
     public static UserService getUserService(){
         return new UserServiceImpl();
     }

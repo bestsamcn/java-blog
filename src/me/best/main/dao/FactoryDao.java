@@ -12,4 +12,6 @@ public class FactoryDao {
     public static TagDao getTagDao(){
         return new TagDaoImpl();
     }
+
+    public static CategoryDao getCategoryDao(){ return new CategoryDaoImpl();}
 }
