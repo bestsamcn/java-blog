@@ -1,5 +1,7 @@
-package me.best.main.dao;
+package me.best.main.dao.impl;
 
+import me.best.main.dao.BaseDao;
+import me.best.main.dao.UserDao;
 import me.best.main.models.User;
 
 import java.util.List;
@@ -9,7 +11,7 @@ import java.util.List;
  * @Author: Sam
  * @Date: 2018/9/12 21:39
  */
-public class UserDaoImpl extends BaseDao<User> implements UserDao{
+public class UserDaoImpl extends BaseDao<User> implements UserDao {
     @Override
     public int add(User user) {
         String sql = "insert into public.user"

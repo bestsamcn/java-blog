@@ -1,7 +1,9 @@
-package me.best.main.services;
+package me.best.main.services.impl;
 
 import me.best.main.dao.FactoryDao;
+import me.best.main.models.Category;
 import me.best.main.models.Tag;
+import me.best.main.services.CategoryService;
 import me.best.main.utils.Utils;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -14,7 +16,7 @@ import java.util.List;
  * @Author: Sam
  * @Date: 2018/9/12 21:39
  */
-public class TagServiceImpl implements TagService{
+public class CategoryServiceImpl implements CategoryService {
     static final int PAGE_SIZE= 10;
 
     @Override
@@ -28,20 +30,20 @@ public class TagServiceImpl implements TagService{
         }
 
         //唯一性
-        long count =  FactoryDao.getTagDao().getCountByName(name);
+        long count =  FactoryDao.getCategoryDao().getCountByName(name);
         if(count != 0){
             ret = Utils.setResponse(-1, "标签名已存在","null");
             return ret;
         }
 
         Timestamp createTime = new Timestamp(new Date().getTime());
-        Tag tag = new Tag(Utils.getUUID(), name, 0, createTime);
+        Category category = new Category(Utils.getUUID(), name, 0, createTime);
         try{
 
             //新增操作
-            int row = FactoryDao.getTagDao().add(tag);
+            int row = FactoryDao.getCategoryDao().add(category);
             if(row == 1){
-                ret = Utils.setResponse(0, "添加成功", tag.getId());
+                ret = Utils.setResponse(0, "添加成功", category.getId());
                 return ret;
             }else{
                 ret = Utils.setResponse(-1, "添加失败","null");
@@ -62,17 +64,17 @@ public class TagServiceImpl implements TagService{
             ret = Utils.setResponse(-1, "无此记录","null");
             return ret;
         }
-        Tag tag = FactoryDao.getTagDao().getById(id);
-        if(tag == null){
+        Category category = FactoryDao.getCategoryDao().getById(id);
+        if(category == null){
             ret = Utils.setResponse(-1, "无此记录","null");
             return ret;
         }
 
         //将实体转换为JSONObject类型
-        JSONObject _tag = JSONObject.fromObject(tag);
+        JSONObject _tag = JSONObject.fromObject(category);
 
         //修改createTime的类型转为long时间戳
-        _tag.replace("createTime", tag.getCreateTime().getTime());
+        _tag.replace("createTime", category.getCreateTime().getTime());
         ret = Utils.setResponse(-1, "查询成功",_tag);
         return ret;
     }
@@ -103,8 +105,8 @@ public class TagServiceImpl implements TagService{
         if(_pageSize <= 0){
             _pageSize=PAGE_SIZE;
         }
-        List<Tag> tagList = FactoryDao.getTagDao().getList(_pageIndex, _pageSize);
-        long total = FactoryDao.getTagDao().getTotal();
+        List<Category> tagList = FactoryDao.getCategoryDao().getList(_pageIndex, _pageSize);
+        long total = FactoryDao.getCategoryDao().getTotal();
 
         //转换时间戳
         JSONArray _tagList = JSONArray.fromObject(tagList);
@@ -122,7 +124,7 @@ public class TagServiceImpl implements TagService{
     @Override
     public JSONObject getAll(){
         JSONObject ret = Utils.setResponse(-1, "异常", "null");
-        List<Tag> tagList = FactoryDao.getTagDao().getAll();
+        List<Category> tagList = FactoryDao.getCategoryDao().getAll();
 
         //转换时间戳
         JSONArray _tagList = JSONArray.fromObject(tagList);
@@ -144,7 +146,7 @@ public class TagServiceImpl implements TagService{
             return ret;
         }
         try{
-            int row =   FactoryDao.getTagDao().delete(id);
+            int row =   FactoryDao.getCategoryDao().delete(id);
             if(row == 1){
                 ret = Utils.setResponse(0, "删除成功", id);
                 return ret;
@@ -178,9 +180,9 @@ public class TagServiceImpl implements TagService{
 
         int count = 0;
         if(clickNum != null){
-            count = FactoryDao.getTagDao().edit(id, name, Integer.parseInt(clickNum));
+            count = FactoryDao.getCategoryDao().edit(id, name, Integer.parseInt(clickNum));
         }else{
-            count = FactoryDao.getTagDao().edit(id, name, null);
+            count = FactoryDao.getCategoryDao().edit(id, name, null);
         }
         if(count == 1){
             ret = Utils.setResponse(0, "编辑成功", id);

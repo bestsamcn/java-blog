@@ -1,5 +1,7 @@
-package me.best.main.dao;
+package me.best.main.dao.impl;
 
+import me.best.main.dao.BaseDao;
+import me.best.main.dao.TagDao;
 import me.best.main.models.Tag;
 
 import java.util.List;
