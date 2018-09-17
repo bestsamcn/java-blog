@@ -1,5 +1,6 @@
 package me.best.main.dao;
 
+import me.best.main.models.Category;
 import me.best.main.models.Tag;
 
 import java.util.List;
@@ -16,26 +17,26 @@ public interface CategoryDao {
      * @param id
      * @return
      */
-    public Tag getById(String id);
+    public Category getById(String id);
 
     /**
      * 获取标签列表
      * @return
      */
-    public List<Tag> getList(int pageIndex, int pageSize);
+    public List<Category> getList(int pageIndex, int pageSize);
 
     /**
      * 获取全部
      * @return
      */
-    public List<Tag> getAll();
+    public List<Category> getAll();
 
     /**
      * 添加标签
-     * @param tag
+     * @param Category
      * @return
      */
-    public int add(Tag tag);
+    public int add(Category category);
 
 
     /**

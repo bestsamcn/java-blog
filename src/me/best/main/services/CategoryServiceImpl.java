@@ -1,6 +1,7 @@
 package me.best.main.services;
 
 import me.best.main.dao.FactoryDao;
+import me.best.main.models.Category;
 import me.best.main.models.Tag;
 import me.best.main.utils.Utils;
 import net.sf.json.JSONArray;
@@ -35,13 +36,13 @@ public class CategoryServiceImpl implements CategoryService{
         }
 
         Timestamp createTime = new Timestamp(new Date().getTime());
-        Tag tag = new Tag(Utils.getUUID(), name, 0, createTime);
+        Category category = new Category(Utils.getUUID(), name, 0, createTime);
         try{
 
             //新增操作
-            int row = FactoryDao.getCategoryDao().add(tag);
+            int row = FactoryDao.getCategoryDao().add(category);
             if(row == 1){
-                ret = Utils.setResponse(0, "添加成功", tag.getId());
+                ret = Utils.setResponse(0, "添加成功", category.getId());
                 return ret;
             }else{
                 ret = Utils.setResponse(-1, "添加失败","null");
@@ -62,17 +63,17 @@ public class CategoryServiceImpl implements CategoryService{
             ret = Utils.setResponse(-1, "无此记录","null");
             return ret;
         }
-        Tag tag = FactoryDao.getCategoryDao().getById(id);
-        if(tag == null){
+        Category category = FactoryDao.getCategoryDao().getById(id);
+        if(category == null){
             ret = Utils.setResponse(-1, "无此记录","null");
             return ret;
         }
 
         //将实体转换为JSONObject类型
-        JSONObject _tag = JSONObject.fromObject(tag);
+        JSONObject _tag = JSONObject.fromObject(category);
 
         //修改createTime的类型转为long时间戳
-        _tag.replace("createTime", tag.getCreateTime().getTime());
+        _tag.replace("createTime", category.getCreateTime().getTime());
         ret = Utils.setResponse(-1, "查询成功",_tag);
         return ret;
     }
@@ -103,7 +104,7 @@ public class CategoryServiceImpl implements CategoryService{
         if(_pageSize <= 0){
             _pageSize=PAGE_SIZE;
         }
-        List<Tag> tagList = FactoryDao.getCategoryDao().getList(_pageIndex, _pageSize);
+        List<Category> tagList = FactoryDao.getCategoryDao().getList(_pageIndex, _pageSize);
         long total = FactoryDao.getCategoryDao().getTotal();
 
         //转换时间戳
@@ -122,7 +123,7 @@ public class CategoryServiceImpl implements CategoryService{
     @Override
     public JSONObject getAll(){
         JSONObject ret = Utils.setResponse(-1, "异常", "null");
-        List<Tag> tagList = FactoryDao.getCategoryDao().getAll();
+        List<Category> tagList = FactoryDao.getCategoryDao().getAll();
 
         //转换时间戳
         JSONArray _tagList = JSONArray.fromObject(tagList);

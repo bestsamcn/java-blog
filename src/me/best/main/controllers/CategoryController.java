@@ -19,7 +19,7 @@ public class CategoryController extends BaseController{
     //获取单条数据
     public void getById(HttpServletRequest req, HttpServletResponse reps) throws ServletException, IOException{
         String id = req.getParameter("id");
-        JSONObject ret = FactoryService.getTagService().getById(id);
+        JSONObject ret = FactoryService.getCategoryService().getById(id);
         reps.getWriter().println(ret);
 
     }
@@ -29,7 +29,6 @@ public class CategoryController extends BaseController{
         String name = req.getParameter("name");
         JSONObject ret = FactoryService.getCategoryService().add(name);
         resp.getWriter().println(ret);
-
     }
 
     //修改

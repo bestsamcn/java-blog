@@ -23,6 +23,7 @@ public class BaseController extends HttpServlet{
         String path = pathInfo.substring(1);
         try{
             Method method = this.getClass().getDeclaredMethod(path, HttpServletRequest.class, HttpServletResponse.class);
+            System.out.println(method+" method");
             method.invoke(this, req, resp);
         }catch (Exception e){
             e.printStackTrace();
