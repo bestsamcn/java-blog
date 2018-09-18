@@ -21,14 +21,14 @@ public interface UserDao {
      * 获取用户列表
      * @return
      */
-    public List<User> getList(int pageIndex, int pageSize);
+    public Object getList(String account);
 
     /**
      * 验证唯一用户名
      * @param account
      * @return
      */
-    public long getCountByName(String account);
+    public Object getCountByName(String account);
 
     /**
      * 新增用户
@@ -50,4 +50,11 @@ public interface UserDao {
      * @return
      */
     public int delete(String id);
+
+    /**
+     * 获取用户
+     * @param account
+     * @return
+     */
+    public Object getByName(String account);
 }

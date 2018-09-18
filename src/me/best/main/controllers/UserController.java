@@ -48,4 +48,12 @@ public class UserController extends BaseController {
         JSONObject ret = FactoryService.getUserService().edit(id, email, mobile);
         resp.getWriter().println(ret);
     }
+
+    //登陆
+    public void login(HttpServletRequest req, HttpServletResponse resp) throws IOException{
+        String account = req.getParameter("account");
+        String password = req.getParameter("password");
+        JSONObject ret =  FactoryService.getUserService().login(account, password);
+        resp.getWriter().println(ret);
+    }
 }

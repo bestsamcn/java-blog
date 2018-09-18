@@ -33,14 +33,15 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao {
     }
 
     @Override
-    public List<User> getList(int pageIndex, int pageSize) {
-        return null;
+    public Object getList(String account) {
+        String sql = "select * from public.user where account=?";
+        return super.get(sql, account);
     }
 
     @Override
-    public long getCountByName(String account) {
+    public Object getCountByName(String account) {
         String sql = "select count(*) from public.user where account=?";
-        return (long) super.getValue(sql, account);
+        return super.getValue(sql, account);
     }
 
     @Override
@@ -48,5 +49,11 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao {
         String sql = "update public.user"
                 +" set password=?, avatar=?, email=?, mobile=?, \"lastUpdateTime\"=now(), \"lastLoginTime\"=?, \"userType\"=?, \"setAdminTime\"=?, \"createIp\"=? where id=?";
         return super.update(sql, user.getPassword(), user.getAvatar(), user.getEmail(), user.getMobile(), user.getLastLoginTime(), user.getUserType(), user.getSetAdminTime(), user.getCreateIp(), user.getId());
+    }
+
+    @Override
+    public Object getByName(String account) {
+        String sql = "select * from public.user where account=?";
+        return super.getList(sql, account);
     }
 }

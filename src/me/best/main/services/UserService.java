@@ -53,4 +53,12 @@ public interface UserService {
      * @return
      */
     public Object getById(String id, boolean isServer);
+
+    /**
+     * 登陆
+     * @param account
+     * @param password
+     * @return
+     */
+    public JSONObject login(String account, String password);
 }

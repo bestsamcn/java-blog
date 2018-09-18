@@ -7,8 +7,10 @@ import me.best.main.services.UserService;
 import me.best.main.utils.Utils;
 import net.sf.json.JSONObject;
 
+import javax.rmi.CORBA.Util;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -31,7 +33,7 @@ public class UserServiceImpl implements UserService {
             return ret;
         }
 
-        long row = FactoryDao.getUserDao().getCountByName(account);
+        long row = (long) FactoryDao.getUserDao().getCountByName(account);
         if(row >0){
             ret.replace("msg", "用户重复");
             return ret;
@@ -138,5 +140,33 @@ public class UserServiceImpl implements UserService {
     @Override
     public JSONObject getUserByAccount(String account) {
         return null;
+    }
+
+    @Override
+    public JSONObject login(String account, String password){
+        JSONObject ret = Utils.setResponse(-1, "登陆失败", "null");
+        if(account == null || account.trim().isEmpty() || account.trim().length() < 3 || account.trim().length() > 24){
+            ret.replace("msg", "用户名错误");
+            return ret;
+        }
+
+        if(password == null || password.trim().isEmpty() || password.trim().length() < 6 || password.trim().length() > 24){
+            ret.replace("msg", "密码错误错误");
+            return ret;
+        }
+
+        try {
+            User user =  (User) FactoryDao.getUserDao().getList(account);
+            if(user != null && user.getPassword().equals(Utils.generatePassword(password.trim(), "SHA1"))){
+                ret = Utils.setResponse(0, "登陆成功", "null");
+                StringBuilder str = new StringBuilder();
+            }else{
+                ret.replace("msg", "账号或者密码错误");
+            }
+            return ret;
+        }catch (Exception e){
+            ret.replace("msg", "异常");
+            return ret;
+        }
     }
 }
