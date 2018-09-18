@@ -54,6 +54,8 @@ public class UserController extends BaseController {
         String account = req.getParameter("account");
         String password = req.getParameter("password");
         JSONObject ret =  FactoryService.getUserService().login(account, password);
+        req.getSession().setAttribute(ret.get("data").toString(), ret.get("id"));
+        resp.setHeader("Set-Cookie", ret.get("data").toString());
         resp.getWriter().println(ret);
     }
 }

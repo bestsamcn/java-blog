@@ -9,8 +9,11 @@ import net.sf.json.JSONObject;
 
 import javax.rmi.CORBA.Util;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 /**
@@ -158,8 +161,18 @@ public class UserServiceImpl implements UserService {
         try {
             User user =  (User) FactoryDao.getUserDao().getList(account);
             if(user != null && user.getPassword().equals(Utils.generatePassword(password.trim(), "SHA1"))){
-                ret = Utils.setResponse(0, "登陆成功", "null");
                 StringBuilder str = new StringBuilder();
+                str.append("JSESSIONID="+user.getId()+"; ");
+//                str.append("Secure; ");
+//                str.append("Http-Only;  ");
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.HOUR, 1);
+                Date date = cal.getTime();
+                Locale locale = Locale.CHINA;
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss",locale);
+                str.append("Expire="+sdf.format(date));
+                ret = Utils.setResponse(0, "登陆成功", str.toString());
+                ret.put("id",user.getId());
             }else{
                 ret.replace("msg", "账号或者密码错误");
             }
