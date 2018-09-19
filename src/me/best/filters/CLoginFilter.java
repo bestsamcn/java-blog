@@ -16,17 +16,17 @@ public class CLoginFilter extends BaseFilter{
     @Override
     protected void doFilter (HttpServletRequest req, HttpServletResponse resp, FilterChain filterChain) throws IOException, ServletException {
         Cookie[] cookies = req.getCookies();
-        String userId = null;
+        String jsessionid = null;
         Cookie cookieObj = null;
         if(cookies != null && cookies.length > 0){
             for(Cookie cookie : cookies){
                 if(cookie.getName().equals("JSESSIONID")){
-                    userId = cookie.getValue();
+                    jsessionid = cookie.getValue();
                     cookieObj = cookie;
                 }
             }
         }
-        if(userId != null && !userId.isEmpty()){
+        if(jsessionid != null && !jsessionid.isEmpty()){
             filterChain.doFilter(req, resp);
             return;
         }
