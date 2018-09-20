@@ -1,5 +1,6 @@
 package me.best.filters;
 
+import me.best.main.utils.SessionUtils;
 import me.best.main.utils.Utils;
 import net.sf.json.JSONObject;
 
@@ -9,6 +10,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebFilter(urlPatterns = {"/tag/*"})
@@ -27,10 +29,15 @@ public class CLoginFilter extends BaseFilter{
             }
         }
         if(jsessionid != null && !jsessionid.isEmpty()){
-            filterChain.doFilter(req, resp);
-            return;
+            HttpSession session = SessionUtils.getSession(jsessionid);
+            String userId = (String) session.getAttribute("userId");
+            if(userId != null && userId.length() == 32){
+                filterChain.doFilter(req, resp);
+                return;
+            }
         }
         req.getSession().removeAttribute("userId");
+        req.getSession().invalidate();
         if(null != cookieObj){
             cookieObj.setMaxAge(0);
             resp.addCookie(cookieObj);

@@ -2,6 +2,8 @@ package me.best.main.utils;
 
 import net.sf.json.JSONObject;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.security.MessageDigest;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -80,5 +82,21 @@ public class Utils {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    /**
+     * 通过cookie名称获取cookie
+     * @param req
+     * @param name
+     * @return
+     */
+    public static Cookie getCookie(HttpServletRequest req, String name){
+        Cookie[] cookies = req.getCookies();
+        for(Cookie cookie : cookies){
+            if(cookie.getName().equals(name)){
+                return cookie;
+            }
+        }
+        return null;
     }
 }
