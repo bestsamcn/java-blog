@@ -55,11 +55,14 @@ public class UserController extends BaseController {
 
     //登陆
     public void login(HttpServletRequest req, HttpServletResponse resp) throws IOException{
-        String jsessionid = (String) req.getSession().getId();
+        String jsessionid = (String) req.getSession(false).getId();
 
         //重复登陆隔离
         if(jsessionid != null && !jsessionid.isEmpty()){
             HttpSession session = SessionUtils.getSession(jsessionid);
+            if(session != null){
+
+            }
             String userId = (String) session.getAttribute("userId");
             if(userId != null && userId.length() == 32 ){
                 JSONObject ret = Utils.setResponse(-1, "你已登录", "null");
@@ -92,8 +95,8 @@ public class UserController extends BaseController {
 
     //退出
     public void logout(HttpServletRequest req, HttpServletResponse resp) throws IOException{
-        req.getSession().removeAttribute("userId");
-        req.getSession().invalidate();
+        req.getSession(false).removeAttribute("userId");
+        req.getSession(false).invalidate();
         Cookie cookie = Utils.getCookie(req, "JESSIONID");
         cookie.setMaxAge(0);
         resp.addCookie(cookie);

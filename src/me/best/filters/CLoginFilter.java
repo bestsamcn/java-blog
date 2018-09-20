@@ -36,8 +36,8 @@ public class CLoginFilter extends BaseFilter{
                 return;
             }
         }
-        req.getSession().removeAttribute("userId");
-        req.getSession().invalidate();
+        req.getSession(false).removeAttribute("userId");
+        req.getSession(false).invalidate();
         if(null != cookieObj){
             cookieObj.setMaxAge(0);
             resp.addCookie(cookieObj);
