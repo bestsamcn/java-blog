@@ -30,14 +30,16 @@ public class CLoginFilter extends BaseFilter{
         }
         if(jsessionid != null && !jsessionid.isEmpty()){
             HttpSession session = SessionUtils.getSession(jsessionid);
-            String userId = (String) session.getAttribute("userId");
-            if(userId != null && userId.length() == 32){
-                filterChain.doFilter(req, resp);
-                return;
+            if(session != null){
+                String userId = (String) session.getAttribute("userId");
+                if(userId != null && userId.length() == 32){
+                    filterChain.doFilter(req, resp);
+                    return;
+                }
             }
         }
-        req.getSession(false).removeAttribute("userId");
-        req.getSession(false).invalidate();
+        req.getSession().removeAttribute("userId");
+        req.getSession().invalidate();
         if(null != cookieObj){
             cookieObj.setMaxAge(0);
             resp.addCookie(cookieObj);

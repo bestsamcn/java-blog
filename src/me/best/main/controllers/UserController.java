@@ -55,19 +55,19 @@ public class UserController extends BaseController {
 
     //登陆
     public void login(HttpServletRequest req, HttpServletResponse resp) throws IOException{
-        String jsessionid = (String) req.getSession(false).getId();
+        Cookie cookie = Utils.getCookie(req, "JSESSIONID");
 
         //重复登陆隔离
-        if(jsessionid != null && !jsessionid.isEmpty()){
+        if(cookie != null){
+            String jsessionid = (String) cookie.getValue();
             HttpSession session = SessionUtils.getSession(jsessionid);
             if(session != null){
-
-            }
-            String userId = (String) session.getAttribute("userId");
-            if(userId != null && userId.length() == 32 ){
-                JSONObject ret = Utils.setResponse(-1, "你已登录", "null");
-                resp.getWriter().println(ret);
-                return;
+                String userId = (String) session.getAttribute("userId");
+                if(userId != null && userId.length() == 32 ){
+                    JSONObject ret = Utils.setResponse(-1, "你已登录", "null");
+                    resp.getWriter().println(ret);
+                    return;
+                }
             }
         }
         String account = req.getParameter("account");
@@ -75,7 +75,13 @@ public class UserController extends BaseController {
         JSONObject ret =  FactoryService.getUserService().login(account, password);
 
         //设置session,会自动设置cookie,getSession(boolean)false为不自动创建
-        req.getSession(false).setAttribute("userId", ret.get("data"));
+        req.getSession().setAttribute("userId", ret.get("data"));
+        Cookie retcookie = new Cookie("JSESSIONID", req.getSession().getId());
+
+        //保持登陆一天
+        retcookie.setMaxAge(3600);
+        retcookie.setPath("/");
+        resp.addCookie(retcookie);
         resp.getWriter().println(ret);
     }
 
@@ -95,11 +101,13 @@ public class UserController extends BaseController {
 
     //退出
     public void logout(HttpServletRequest req, HttpServletResponse resp) throws IOException{
-        req.getSession(false).removeAttribute("userId");
-        req.getSession(false).invalidate();
+        req.getSession().removeAttribute("userId");
+        req.getSession().invalidate();
         Cookie cookie = Utils.getCookie(req, "JESSIONID");
-        cookie.setMaxAge(0);
-        resp.addCookie(cookie);
+        if(cookie !=null){
+            cookie.setMaxAge(0);
+            resp.addCookie(cookie);
+        }
         JSONObject ret = Utils.setResponse(-1, "你已退出", "null");
         resp.getWriter().println(ret);
     }
