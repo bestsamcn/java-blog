@@ -17,21 +17,21 @@ public interface ArticleDao {
      * @param article
      * @return
      */
-    public String add(Article article);
+    public int add(Article article);
 
     /**
      * 删除
      * @param id
      * @return
      */
-    public String delete(String id);
+    public int delete(String id);
 
     /**
      * 编辑
      * @param article
      * @return
      */
-    public String edit(Article article);
+    public int edit(Article article);
 
     /**
      * 分页

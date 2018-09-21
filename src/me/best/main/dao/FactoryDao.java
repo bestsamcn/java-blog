@@ -1,5 +1,6 @@
 package me.best.main.dao;
 
+import me.best.main.dao.impl.ArticleDaoImpl;
 import me.best.main.dao.impl.CategoryDaoImpl;
 import me.best.main.dao.impl.TagDaoImpl;
 import me.best.main.dao.impl.UserDaoImpl;
@@ -18,4 +19,6 @@ public class FactoryDao {
     }
 
     public static CategoryDao getCategoryDao(){ return new CategoryDaoImpl();}
+
+    public static ArticleDao getArticleDao(){ return new ArticleDaoImpl();}
 }

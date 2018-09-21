@@ -1,6 +1,7 @@
 package me.best.main.services;
 
 
+import me.best.main.services.impl.ArticleServiceImpl;
 import me.best.main.services.impl.CategoryServiceImpl;
 import me.best.main.services.impl.TagServiceImpl;
 import me.best.main.services.impl.UserServiceImpl;
@@ -19,5 +20,9 @@ public class FactoryService {
     }
     public static UserService getUserService(){
         return new UserServiceImpl();
+    }
+
+    public static ArticleService getArticleDao(){
+        return new ArticleServiceImpl();
     }
 }

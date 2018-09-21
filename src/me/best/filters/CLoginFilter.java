@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = {"/tag/*"})
+@WebFilter(urlPatterns = {"/tag/*", "/article/add",})
 public class CLoginFilter extends BaseFilter{
     @Override
     protected void doFilter (HttpServletRequest req, HttpServletResponse resp, FilterChain filterChain) throws IOException, ServletException {

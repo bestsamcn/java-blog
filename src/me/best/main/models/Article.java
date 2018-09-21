@@ -12,7 +12,7 @@ public class Article {
     private String categoryName;
     private String tag;
     private String tagName;
-    private String thumnail;
+    private String thumbnail;
     private String poster;
     private String title;
     private String pinyin;
@@ -22,7 +22,7 @@ public class Article {
     private int readNum;
     private int commentNum;
     private String codeContent;
-    private String priviewText;
+    private String previewText;
     private int likeNum;
     private boolean isPrivate;
 
@@ -74,12 +74,12 @@ public class Article {
         this.tagName = tagName;
     }
 
-    public String getThumnail() {
-        return thumnail;
+    public String getThumbnail() {
+        return thumbnail;
     }
 
-    public void setThumnail(String thumnail) {
-        this.thumnail = thumnail;
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
     public String getPoster() {
@@ -154,12 +154,12 @@ public class Article {
         this.codeContent = codeContent;
     }
 
-    public String getPriviewText() {
-        return priviewText;
+    public String getPreviewText() {
+        return previewText;
     }
 
-    public void setPriviewText(String priviewText) {
-        this.priviewText = priviewText;
+    public void setPreviewText(String previewText) {
+        this.previewText = previewText;
     }
 
     public int getLikeNum() {
@@ -170,12 +170,12 @@ public class Article {
         this.likeNum = likeNum;
     }
 
-    public boolean isPrivate() {
+    public boolean getIsPrivate() {
         return isPrivate;
     }
 
-    public void setPrivate(boolean aPrivate) {
-        isPrivate = aPrivate;
+    public void setIsPrivate(boolean isPrivate) {
+        this.isPrivate = isPrivate;
     }
 }
 
