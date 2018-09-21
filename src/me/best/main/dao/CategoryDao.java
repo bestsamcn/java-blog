@@ -33,7 +33,7 @@ public interface CategoryDao {
 
     /**
      * 添加标签
-     * @param Category
+     * @param category
      * @return
      */
     public int add(Category category);
