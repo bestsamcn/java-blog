@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : blog
+ Source Server         : postgres
  Source Server Type    : PostgreSQL
  Source Server Version : 90514
  Source Host           : localhost:5432
@@ -12,7 +12,7 @@
  Target Server Version : 90514
  File Encoding         : 65001
 
- Date: 12/09/2018 19:29:35
+ Date: 23/09/2018 01:28:57
 */
 
 
@@ -25,7 +25,7 @@ CREATE TABLE "public"."article" (
   "creator" char(32) COLLATE "pg_catalog"."default" NOT NULL,
   "category" char(32) COLLATE "pg_catalog"."default" NOT NULL,
   "tag" char(32) COLLATE "pg_catalog"."default" NOT NULL,
-  "thumnail" varchar(250) COLLATE "pg_catalog"."default",
+  "thumbnail" varchar(250) COLLATE "pg_catalog"."default",
   "poster" varchar(250) COLLATE "pg_catalog"."default",
   "content" text COLLATE "pg_catalog"."default",
   "title" varchar(120) COLLATE "pg_catalog"."default",
@@ -39,14 +39,14 @@ CREATE TABLE "public"."article" (
   "codeContent" text COLLATE "pg_catalog"."default",
   "previewText" varchar(250) COLLATE "pg_catalog"."default",
   "likeNum" int4,
-  "private" bool
+  "isPrivate" bool
 )
 ;
 COMMENT ON COLUMN "public"."article"."id" IS 'id';
 COMMENT ON COLUMN "public"."article"."creator" IS 'creator';
 COMMENT ON COLUMN "public"."article"."category" IS 'category';
 COMMENT ON COLUMN "public"."article"."tag" IS 'tag';
-COMMENT ON COLUMN "public"."article"."thumnail" IS 'thumnail';
+COMMENT ON COLUMN "public"."article"."thumbnail" IS 'thumnail';
 COMMENT ON COLUMN "public"."article"."poster" IS 'poster';
 COMMENT ON COLUMN "public"."article"."content" IS 'content';
 COMMENT ON COLUMN "public"."article"."title" IS 'title';
@@ -215,7 +215,7 @@ DROP TABLE IF EXISTS "public"."user";
 CREATE TABLE "public"."user" (
   "id" char(32) COLLATE "pg_catalog"."default" NOT NULL,
   "account" varchar(26) COLLATE "pg_catalog"."default" NOT NULL,
-  "password" varchar(26) COLLATE "pg_catalog"."default" NOT NULL,
+  "password" varchar(40) COLLATE "pg_catalog"."default" NOT NULL,
   "avatar" varchar(250) COLLATE "pg_catalog"."default",
   "email" varchar(250) COLLATE "pg_catalog"."default",
   "mobile" char(11) COLLATE "pg_catalog"."default",
@@ -291,9 +291,15 @@ CREATE UNIQUE INDEX "tag_id_idx" ON "public"."tag" USING btree (
 );
 
 -- ----------------------------
+-- Uniques structure for table tag
+-- ----------------------------
+ALTER TABLE "public"."tag" ADD CONSTRAINT "id" UNIQUE ("id");
+ALTER TABLE "public"."tag" ADD CONSTRAINT "name" UNIQUE ("name");
+
+-- ----------------------------
 -- Primary Key structure for table tag
 -- ----------------------------
-ALTER TABLE "public"."tag" ADD CONSTRAINT "pk_tag" PRIMARY KEY ("id");
+ALTER TABLE "public"."tag" ADD CONSTRAINT "pk_tag" PRIMARY KEY ("id", "name");
 
 -- ----------------------------
 -- Indexes structure for table user
