@@ -4,7 +4,11 @@ import net.sf.json.JSONObject;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.MessageDigest;
+import java.util.HashSet;
+import java.util.Properties;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -100,5 +104,18 @@ public class Utils {
             }
         }
         return null;
+    }
+
+    /**
+     * 获取配置属性
+     * @param path
+     * @return
+     * @throws IOException
+     */
+    public static Properties getFilterList(String path) throws IOException {
+        Properties props = new Properties();
+        InputStream in = Utils.class.getClassLoader().getResourceAsStream(path);
+        props.load(in);
+        return props;
     }
 }

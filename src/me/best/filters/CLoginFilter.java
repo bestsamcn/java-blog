@@ -2,6 +2,7 @@ package me.best.filters;
 
 import me.best.main.utils.SessionUtils;
 import me.best.main.utils.Utils;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import javax.servlet.FilterChain;
@@ -12,11 +13,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.*;
 
-@WebFilter(urlPatterns = {"/tag/*", "/article/add", "/article/delete", "/article/edit"})
+@WebFilter(urlPatterns = {"*"})
 public class CLoginFilter extends BaseFilter{
     @Override
     protected void doFilter (HttpServletRequest req, HttpServletResponse resp, FilterChain filterChain) throws IOException, ServletException {
+
+        //登陆限制
+        Properties props = Utils.getFilterList("config.properties");
+        String unFilterUrlString = props.getProperty("unFilterUrlList");
+        String[] unFilterUrlList = unFilterUrlString.split(", ");
+        HashSet<String>  unFilterUrlSet= new HashSet(Arrays.asList(unFilterUrlList));
+        String path = req.getRequestURI();
+
+        //非权限请求直接跳转
+        if(unFilterUrlSet.contains(path)){
+            filterChain.doFilter(req, resp);
+            return;
+        }
+
+        //受限制且登陆
         Cookie[] cookies = req.getCookies();
         String jsessionid = null;
         Cookie cookieObj = null;
@@ -38,6 +55,8 @@ public class CLoginFilter extends BaseFilter{
                 }
             }
         }
+
+        //受限制且未登陆
         req.getSession().removeAttribute("userId");
         req.getSession().invalidate();
         if(null != cookieObj){
