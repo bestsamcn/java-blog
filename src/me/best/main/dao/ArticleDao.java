@@ -46,7 +46,13 @@ public interface ArticleDao {
      * @param id
      * @return
      */
-    public Article getById(String id);
+    public Object getDetail(String id);
+
+    /**
+     * 获取记录总数
+     * @return
+     */
+    public long getTotal();
 }
 
 

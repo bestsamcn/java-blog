@@ -22,7 +22,7 @@ public class FactoryService {
         return new UserServiceImpl();
     }
 
-    public static ArticleService getArticleDao(){
+    public static ArticleService getArticleService(){
         return new ArticleServiceImpl();
     }
 }
