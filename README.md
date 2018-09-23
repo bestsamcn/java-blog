@@ -2,14 +2,14 @@
 javaweb入门项目，模仿了传统的mvc结构，涉及到了listener, filter, servlet, 作为入门级项目，权当一个demo吧。
 
 ### 功能
-[x] 注册登陆
-[x] 增删改查
-[x] 分页实现
-[x] 权限过滤
-[x] session监听
-[x] 图片上传
-[x] 图片显示
-[x] property类的使用
+- [x] 注册登陆
+- [x] 增删改查
+- [x] 分页实现
+- [x] 权限过滤
+- [x] session监听
+- [x] 图片上传
+- [x] 图片显示
+- [x] property类的使用
 
 
 ### 一些感受
