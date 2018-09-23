@@ -244,13 +244,4 @@ public class ArticleServiceImpl implements ArticleService {
         }
         return ret;
     }
-
-    @Override
-    public JSONObject addPoster(HttpServletRequest req) {
-        JSONObject ret = Utils.setResponse(-1, "上传失败", "null");
-
-
-
-        return ret;
-    }
 }

@@ -25,6 +25,30 @@ public class Article {
     private String previewText;
     private int likeNum;
     private boolean isPrivate;
+    public Article(){
+        super();
+    }
+    public Article(String id, String creator, String category, String categoryName, String tag, String tagName, String thumbnail, String poster, String title, String pinyin, String content, Timestamp createTime, Timestamp lastEditTime, int readNum, int commentNum, String codeContent, String previewText, int likeNum, boolean isPrivate) {
+        this.id = id;
+        this.creator = creator;
+        this.category = category;
+        this.categoryName = categoryName;
+        this.tag = tag;
+        this.tagName = tagName;
+        this.thumbnail = thumbnail;
+        this.poster = poster;
+        this.title = title;
+        this.pinyin = pinyin;
+        this.content = content;
+        this.createTime = createTime;
+        this.lastEditTime = lastEditTime;
+        this.readNum = readNum;
+        this.commentNum = commentNum;
+        this.codeContent = codeContent;
+        this.previewText = previewText;
+        this.likeNum = likeNum;
+        this.isPrivate = isPrivate;
+    }
 
     public String getId() {
         return id;

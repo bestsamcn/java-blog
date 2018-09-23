@@ -63,12 +63,4 @@ public interface ArticleService {
      * @return
      */
     public JSONObject delete(String id);
-
-    /**
-     * 上传图片
-     * @param req
-     * @return
-     */
-    public JSONObject addPoster(HttpServletRequest req);
-
 }

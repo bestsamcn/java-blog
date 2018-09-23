@@ -69,9 +69,4 @@ public class ArticleController extends BaseController {
         JSONObject ret = FactoryService.getArticleService().delete(id);
         resp.getWriter().println(ret);
     }
-
-    public void addPoster(HttpServletRequest req, HttpServletResponse resp) throws IOException{
-        JSONObject ret = FactoryService.getArticleService().addPoster(req);
-        resp.getWriter().println(ret);
-    }
 }
