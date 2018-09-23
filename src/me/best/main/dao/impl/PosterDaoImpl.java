@@ -18,6 +18,12 @@ public class PosterDaoImpl extends BaseDao<Poster> implements PosterDao {
     }
 
     @Override
+    public Poster getById(String id){
+        String sql = "select * from public.poster where id=?";
+        return super.get(sql, id);
+    }
+
+    @Override
     public int delete(String id) {
         String sql = "delete from public.poster where id=?";
         return super.update(sql, id);

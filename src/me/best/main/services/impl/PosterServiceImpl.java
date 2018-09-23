@@ -6,16 +6,15 @@ import me.best.main.services.PosterService;
 import me.best.main.utils.Utils;
 import net.sf.json.JSONObject;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadBase;
 import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -32,11 +31,17 @@ public class PosterServiceImpl implements PosterService {
         String tempPath = req.getServletContext().getRealPath("/WEB-INF/temp");
         File tempFile = new File(tempPath);
 
-        //临时文件夹
+        File saveDirectory = new File(savePath);
+
+        //临时文件
         if(!tempFile.exists()){
             tempFile.mkdir();
         }
 
+        //创建文件夹
+        if(!saveDirectory.exists()){
+            saveDirectory.mkdir();
+        }
         try {
             DiskFileItemFactory diskFileItemFactory = new DiskFileItemFactory();
 
@@ -58,7 +63,7 @@ public class PosterServiceImpl implements PosterService {
             servletFileUpload.setHeaderEncoding("UTF-8");
 
             //非二进制流，返回
-            if(ServletFileUpload.isMultipartContent(req)){
+            if(!ServletFileUpload.isMultipartContent(req)){
                 ret.replace("msg", "请求内容类型不符合要求");
                 return ret;
             }
@@ -108,7 +113,7 @@ public class PosterServiceImpl implements PosterService {
                     Poster poster = new Poster(Utils.getUUID(), new Timestamp(new Date().getTime()), saveFileName, saveFilePath, "");
                     int count = FactoryDao.getPosterDao().add(poster);
                     if(count == 1){
-                        ret = Utils.setResponse(0, "上传成功", saveFilePath);
+                        ret = Utils.setResponse(0, "上传成功", poster.getId());
                         return ret;
                     }
                 }
@@ -123,6 +128,36 @@ public class PosterServiceImpl implements PosterService {
             ret.replace("msg", "异常");
         }
         return ret;
+    }
+
+    @Override
+    public void getImage(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        String filename = req.getParameter("filename");
+        if(filename ==null || filename.trim()==""){
+            resp.setStatus(404);
+            return;
+        }
+        String saveDirectory = req.getServletContext().getRealPath("/WEB-INF/upload");
+        File fileNamePath = new File(saveDirectory+"/"+filename);
+        if(!fileNamePath.exists()){
+            resp.setStatus(404);
+            return;
+        }
+
+        //返回内容格式
+        resp.setHeader("Content-Type","image/jpeg");
+        BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(fileNamePath));
+        BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(resp.getOutputStream());
+
+        int len = 0;
+
+        //建立缓存区，每次写入1kb的数据
+        byte[] b = new byte[1024];
+        while((len=bufferedInputStream.read(b))>0){
+            bufferedOutputStream.write(b, 0, len);
+        }
+        bufferedInputStream.close();
+        bufferedOutputStream.close();
     }
 
     @Override

@@ -118,4 +118,22 @@ public class Utils {
         props.load(in);
         return props;
     }
+
+    /**
+     * 获取指定配置固定属性
+     * @param propName
+     * @return
+     * @throws IOException
+     */
+    public static String getConfigProperty(String propName){
+        Properties props = new Properties();
+        InputStream in = Utils.class.getClassLoader().getResourceAsStream("config.properties");
+        try{
+            props.load(in);
+            return props.getProperty(propName);
+        }catch(Exception e){
+            return null;
+        }
+
+    }
 }

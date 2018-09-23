@@ -1,8 +1,12 @@
 package me.best.main.services;
 
+import me.best.main.controllers.PosterController;
 import net.sf.json.JSONObject;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @Author: Sam
@@ -16,6 +20,15 @@ public interface PosterService {
      * @return
      */
     public JSONObject add(HttpServletRequest req);
+
+    /**
+     * 下载
+     * @param req
+     * @param resp
+     * @return
+     */
+    public void getImage(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException;
+
 
     /**
      * 删除

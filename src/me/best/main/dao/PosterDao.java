@@ -18,6 +18,13 @@ public interface PosterDao {
     public int add(Poster poster);
 
     /**
+     * 通过id获取
+     * @param id
+     * @return
+     */
+    public Poster getById(String id);
+
+    /**
      * 删除
      * @param id
      * @return
